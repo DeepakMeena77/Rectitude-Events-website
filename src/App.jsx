@@ -28,9 +28,23 @@ function Layout() {
   )
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  React.useLayoutEffect(() => {
+    document.documentElement.style.scrollBehavior = 'auto'
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+    const timeout = setTimeout(() => {
+      document.documentElement.style.scrollBehavior = 'smooth'
+    }, 10)
+    return () => clearTimeout(timeout)
+  }, [pathname])
+  return null
+}
+
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/admin/*" element={<Admin />} />
         <Route path="/*" element={
